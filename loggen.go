@@ -17,6 +17,7 @@ import (
 
 func main() {
 	logFile := flag.String("log-file", "", "logfile, default is STDOUT")
+	logPrefix := flag.String("log-prefix", "", "prefix for logger, default loggen")
 	noDebug := flag.Bool("no-debug", false, "don't generate DEBUG log messages")
 	noInfo := flag.Bool("no-info", false, "don't generate INFO log messages")
 	noWarn := flag.Bool("no-warn", false, "don't generate WARN log messages")
@@ -34,12 +35,12 @@ func main() {
 		}
 		defer f.Close()
 		log.Println("Logging into file" + *logFile)
-		logger = log.New(f, "loggen ", log.LstdFlags)
+		logger = log.New(f, *logPrefix+" ", log.LstdFlags)
 		logger.Println("Logging into file" + *logFile)
 
 	} else {
 		log.Println("Logging into STDOUT")
-		logger = log.New(os.Stdout, "loggen ", log.LstdFlags)
+		logger = log.New(os.Stdout, *logPrefix+" ", log.LstdFlags)
 		logger.Println("Logging into STDOUT")
 	}
 
