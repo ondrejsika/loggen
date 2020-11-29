@@ -17,10 +17,10 @@ import (
 
 func main() {
 	logFile := flag.String("log-file", "", "logfile, default is STDOUT")
-	logDebug := flag.Bool("debug", false, "generate DEBUG log messages")
-	logInfo := flag.Bool("info", false, "generate INFO log messages")
-	logWarn := flag.Bool("warn", false, "generate WARN log messages")
-	logError := flag.Bool("error", false, "generate ERROR log messages")
+	noDebug := flag.Bool("no-debug", false, "don't generate DEBUG log messages")
+	noInfo := flag.Bool("no-info", false, "don't generate INFO log messages")
+	noWarn := flag.Bool("no-warn", false, "don't generate WARN log messages")
+	noError := flag.Bool("no-error", false, "don't generate ERROR log messages")
 
 	flag.Parse()
 
@@ -43,7 +43,7 @@ func main() {
 		logger.Println("Logging into STDOUT")
 	}
 
-	if !(*logDebug || *logInfo || *logWarn || *logError) {
+	if *noError && *noWarn && *noInfo && *noDebug {
 		logger.Println("ERROR No logging output enabled. See \"loggen -h\"")
 		os.Exit(1)
 	}
@@ -52,19 +52,19 @@ func main() {
 		time.Sleep(time.Second)
 
 		randomNumber := rand.Intn(100)
-		if randomNumber > 90 && *logError {
+		if randomNumber > 90 && !*noError {
 			logger.Println("ERROR An error is usually an exception that has been caught and not handled.")
 			continue
 		}
-		if randomNumber > 70 && *logWarn {
+		if randomNumber > 70 && !*noWarn {
 			logger.Println("WARN A warning that should be ignored is usually at this level and should be actionable.")
 			continue
 		}
-		if randomNumber > 30 && *logInfo {
+		if randomNumber > 30 && !*noInfo {
 			logger.Println("INFO This is less important than debug log and is often used to provide context in the current task.")
 			continue
 		}
-		if *logDebug {
+		if !*noDebug {
 			logger.Println("DEBUG This is a debug log that shows a log that can be ignored.")
 			continue
 		}
