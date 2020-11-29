@@ -1,0 +1,9 @@
+.vscode
+.env
+.DS_Store
+
+loggen
+loggen.exe
+dist/**
+
+*.log
