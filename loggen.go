@@ -18,6 +18,7 @@ import (
 func main() {
 	logFile := flag.String("log-file", "", "logfile, default is STDOUT")
 	logPrefix := flag.String("log-prefix", "loggen", "prefix for logger, default loggen")
+	sleepTime := flag.Int("sleep-time", 1000, "prefix for logger, default loggen")
 	noDebug := flag.Bool("no-debug", false, "don't generate DEBUG log messages")
 	noInfo := flag.Bool("no-info", false, "don't generate INFO log messages")
 	noWarn := flag.Bool("no-warn", false, "don't generate WARN log messages")
@@ -50,7 +51,7 @@ func main() {
 	}
 
 	for {
-		time.Sleep(time.Second)
+		time.Sleep(time.Duration(*sleepTime) * time.Millisecond)
 
 		randomNumber := rand.Intn(100)
 		if randomNumber > 90 && !*noError {
